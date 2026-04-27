@@ -1,0 +1,24 @@
+name: Run Name Test
+
+run-name: "Build PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      FAKE_SECRET: ${{ secrets.FAKE_SECRET }}
+    steps:
+      - name: Log info
+        run: |
+          echo "=== RUN NAME TEST ==="
+          echo "Run name should be visible in API and UI"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "Fake secret in env (should be redacted in logs): $FAKE_SECRET"
+          echo "========================"
