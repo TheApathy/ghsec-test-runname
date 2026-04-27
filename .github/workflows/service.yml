@@ -1,0 +1,25 @@
+name: Vector - Service Container Injection
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  test-service:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+      attacker-controlled:
+        image: ${{ github.event.pull_request.title }}
+        ports:
+          - 8080:8080
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test services
+        run: |
+          echo "=== SERVICE INJECTION TEST ==="
+          echo "PR Title (used as image): ${{ github.event.pull_request.title }}"
+          echo "Secret present: ${{ secrets.FAKE_SECRET != '' && 'YES' || 'NO' }}"
+          echo "==============================="
