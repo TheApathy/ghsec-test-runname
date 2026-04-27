@@ -1,0 +1,19 @@
+name: Vector - Milestone Trigger
+on:
+  milestone:
+    types: [created, opened, edited]
+
+jobs:
+  test-milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log milestone info
+        run: |
+          echo "=== MILESTONE TRIGGER ==="
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Milestone: ${{ github.event.milestone.title }}"
+          echo "Description: ${{ github.event.milestone.description }}"
+          echo "Secret present: ${{ secrets.FAKE_SECRET != '' && 'YES' || 'NO' }}"
+          echo "========================="

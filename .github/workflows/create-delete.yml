@@ -1,0 +1,19 @@
+name: Vector - Create Delete Trigger
+on:
+  create:
+  delete:
+
+jobs:
+  test-create-delete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log create/delete info
+        run: |
+          echo "=== CREATE/DELETE TRIGGER ==="
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Ref: ${{ github.event.ref }}"
+          echo "Ref type: ${{ github.event.ref_type }}"
+          echo "Secret present: ${{ secrets.FAKE_SECRET != '' && 'YES' || 'NO' }}"
+          echo "============================="

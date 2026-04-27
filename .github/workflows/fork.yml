@@ -1,0 +1,16 @@
+name: Vector - Fork Trigger
+on: [fork]
+
+jobs:
+  test-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log fork info
+        run: |
+          echo "=== FORK TRIGGER ==="
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Forkee: ${{ github.event.forkee.full_name }}"
+          echo "Secret present: ${{ secrets.FAKE_SECRET != '' && 'YES' || 'NO' }}"
+          echo "===================="
