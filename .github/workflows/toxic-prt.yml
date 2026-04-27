@@ -1,0 +1,27 @@
+name: Toxic Combo 3 - pull_request_target DANGER
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  dangerous:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Show context
+        run: |
+          echo "=== pull_request_target DANGER DEMO ==="
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "This runs in BASE repo context with FULL secrets!"
+          echo "Secret present: ${{ secrets.FAKE_SECRET != '' && 'YES' || 'NO' }}"
+          echo "======================================="
+      - name: Simulate attacker-controlled execution
+        run: |
+          echo "Attacker PR title: ${{ github.event.pull_request.title }}"
+          echo "Attacker PR body: ${{ github.event.pull_request.body }}"
+          echo "Head repo: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "Base repo: ${{ github.event.pull_request.base.repo.full_name }}"
+          echo "Is fork: ${{ github.event.pull_request.head.repo.fork }}"
